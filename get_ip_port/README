@@ -1,0 +1,24 @@
+getsockname()在指定的套接口绑定地址和端口后才能调用，即服务器在bind()后可调用，客户端在bind()或connect()之后可调用。
+getpeername()在连接建立之后才可调用,所以非面向连接的UDP不能调用getpeername()
+
+具体如下：
+1.在一个没有调用bind的TCP客户上，connect成功返回后，getsockname用于返回由内核赋予该连接的本地IP地址和本地端口号。
+
+2.在以端口号为0调用bind（告知内核去选择本地临时端口号）后，getsockname用于返回由内核赋予的本地端口号。
+
+3.在一个以通配IP地址调用bind的TCP服务器上，与某个客户的连接一旦建立（accept成功返回），getsockname就可以用于返回由内核赋予该连接的本地IP地址。在这样的调用中，套接字描述符参数必须是已连接套接字的描述符，而不是监听套接字的描述符。
+
+4.当一个服务器的是由调用过accept的某个进程通过调用exec执行程序时，它能够获取客户身份的唯一途径便是调用getpeername。
+
+
+q1:udp非面向连接，client由内核(是内核分配的吧？)分配的IP和server从recvfrom得到的ip不一样(2.0.101.94和192.168.96.156), 抓包看却是0.0.0.0
+
+[OliviaZeng@LOCAL-96-156 client]$ ./client 192.168.200.19 6666
+client 2.0.101.94 25950
+
+[OliviaZeng@LOCAL-200-19 ~]$ ./server 6666
+client 192.168.96.156 25950
+local client 0.0.0.0 6666
+
+[OliviaZeng@LOCAL-96-156 server]$ netstat -aun | grep 25950
+udp        0      0 0.0.0.0:25950               0.0.0.0:* 
