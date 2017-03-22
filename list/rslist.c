@@ -27,29 +27,30 @@ Node * create_head(int data)
     return head;
 }
 
-void add(int data, int n)
+void add(int n)
 {
-    Node *tail = NULL
+    int i;
+    Node *tail = NULL;
     Node *node = NULL;
     if (NULL == head) {
-        create_head(data);
+        create_head(0);
         exit(1);
     }
     tail = head;
 
-    if (i=0; i<n; i++) {
+    for (i=0; i<n; i++) {
         node = (Node *)malloc(sizeof(Node));
         if (NULL == node)
             exit(1);
 
-        node->data = data;
+        node->data = rand() % 100;
         node->next = head;
         tail->next = node;
         tail = node;
     }
 }
 
-void printf(void)
+void print(void)
 {
     if (NULL == head)
         return;
@@ -131,13 +132,57 @@ int delete(int pos)
     
 }
 
+int find(int pos, int *data)
+{
+    int len = 0;
+    if (-1 == (len=length()))
+        return -1;
+
+    if (pos > 0 && pos <= len) {
+        Node *cur = head;
+        while (pos--) {
+            cur = cur->next;
+        }
+        *data = cur->data;
+        return 0;
+    } else {
+        return -1;
+    }
+}
+
+int modify(int pos, int data)
+{
+    int len = 0;
+    if (-1 == (len=length()))
+        return -1;
+
+    if (pos > 0 && pos <= len) {
+        Node *cur = head;
+        while (pos--)
+            cur = cur->next;
+        cur->data = data;
+        return 0;
+    } else {
+        return -1;
+    }
+}
+
 
 int main(int argc, char *argv[])
 {
-    if (NULL == create_head(1)) {
+    int i = 0, data = 0;
+    if (NULL == create_head(0)) {
         printf("create head err\n");
         exit(1);
     }
 
-
+    add(10);
+    print();
+    modify(5,123);
+    print();
+    if (-1 != (i=find(4, &data)))
+        printf("i=%d\n", data);
+    delete(3);
+    print();
+    return 0;
 }
