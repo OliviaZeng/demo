@@ -82,7 +82,7 @@ void list_del_node(List *list, Node *node)
     }
 
     if (node->next) {
-        node->pre->next = node->next;
+        node->next->pre = node->pre;
     } else {
         list->tail = node->pre;
     }

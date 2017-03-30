@@ -54,3 +54,28 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+#if 0
+Base::Base()
+-------------------------------
+Base::Base()
+Children::Children()
+-------------------------------
+Base::Base()
+Children::Children()
+-------------------------------
+-------------------------------
+Base::Printf
+Children::Printf
+Children::Printf
+-------------------------------
+Base::~Base()
+-------------------------------
+Children::~Children()
+Base::~Base()
+-------------------------------
+Children::~Children()
+Base::~Base()
+#endif
+
+
+
