@@ -69,3 +69,53 @@ int main()
 
     return 0;
 }
+
+///////////////////////////////////////////////
+//String类的构造函数、析构函数、赋值函数
+
+/*
+class String {
+    public:
+        String(const char *str=NULL); //普通构造函数
+        String(const String &other);  //拷贝构造函数
+        ~String(void);               //析构函数
+        String & operate = (const String &other); //赋值函数
+    private:
+        char *m_data; //用于保存字符串
+};
+
+String::String(const char *str)
+{
+    if (NULL == str) {
+        m_data = new char[1];
+        *m_data = '\0';
+    } else {
+        int len = strlen(str);
+        m_data = new char[len+1];
+        strcpy(m_data, str);
+    }
+}
+
+String::~String(void)
+{
+    delete [] m_data;
+}
+
+String::String(const String &other)
+{
+    int len = strlen(other.m_data);
+    m_data = new char[len+1];
+    strcpy(m_data, other.m_data);
+}
+
+String & String::operate = (const String &other)
+{
+    if (this == &other)
+        return *this;
+    delete [] m_data;
+    int len = strlen(other.m_data);
+    m_data = new char[len+1];
+    strcpy(m_datt, other.m_data);
+    return *this;
+}
+*/
