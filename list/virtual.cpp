@@ -4,7 +4,6 @@
 #include <vector>
 #include <map>
 
-
 using namespace std;
 class Base
 {
@@ -17,6 +16,10 @@ class Base
         {
             std::cout<<"Base::Printf"<<std::endl;
         }
+		virtual void f(int i) {cout << "Base::f" << i << endl;}
+		void g(void) {cout << "Base::g"<< endl;}
+		void h(void) {cout << "Base::h" << endl;}
+
 };
 
 class Children:public Base
@@ -28,6 +31,9 @@ class Children:public Base
         {
             std::cout<<"Children::Printf"<<std::endl;
         }
+		void f(int i) {cout << "child::f" << i << endl;}
+		void g(void) {cout << "child::g"<< endl;}
+		void h(int i) {cout << "child::h" << i << endl;}
 };
 
 
@@ -54,8 +60,38 @@ int main(int argc, char *argv[])
     std::cout<<"-------------------------------"<<std::endl;
     delete child;
 ////////////////////////////////////////////////////////////
+    std::cout<<"//////////////////////////////////////////////"<<std::endl;
 
+//如果没有virtual 关键字，跟b/d指向的类型有关，否则就跟c分配的对象类型有关
+	Base *base3 = new Base;
+    std::cout<<"-------------------------------"<<std::endl;
+    Children *child3 = new Children;
+    std::cout<<"-------------------------------"<<std::endl;
 
+    Children *c = new Children;
+	Base *b = c;
+	Children *d = c;
+
+	base3->f(1);
+	child3->f(2);
+	base3->g();
+	child3->g();
+	base3->h();
+	child3->h(2);
+    std::cout<<"-------------------------------"<<std::endl;
+
+	b->f(1);
+	d->f(2);
+	b->g();
+	d->g();
+	b->h();
+	d->h(2);
+
+    delete base3;
+    delete child3;
+    delete c;
+    std::cout<<"//////////////////////////////////////////////"<<std::endl;
+////////////////////////////////////////////////////////////
     map<int, int> m ;
     m.insert(pair<int, int>(1, 1)) ;
     m.insert(pair<int, int>(2, 2)) ;
@@ -87,3 +123,54 @@ int main(int argc, char *argv[])
 	}
     return 0;
 }
+/*
+Base::Base()
+-------------------------------
+Base::Base()
+Children::Children()
+-------------------------------
+Base::Base()
+Children::Children()
+-------------------------------
+-------------------------------
+Base::Printf
+Children::Printf
+Children::Printf
+-------------------------------
+Base::~Base()
+-------------------------------
+Children::~Children()
+Base::~Base()
+-------------------------------
+Children::~Children()
+Base::~Base()
+//////////////////////////////////////////////
+Base::Base()
+-------------------------------
+Base::Base()
+Children::Children()
+-------------------------------
+Base::Base()
+Children::Children()
+Base::f1
+child::f2
+Base::g
+child::g
+Base::h
+child::h2
+-------------------------------
+child::f1
+child::f2
+Base::g
+child::g
+Base::h
+child::h2
+Base::~Base()
+Children::~Children()
+Base::~Base()
+Children::~Children()
+Base::~Base()
+//////////////////////////////////////////////
+1 2 5 6 
+1-1 2-2 5-5
+*/
