@@ -174,3 +174,34 @@ Base::~Base()
 1 2 5 6 
 1-1 2-2 5-5
 */
+
+
+/*
+子类能访问父类的哪些成员？
+1、能够访问标为public protected的成员变量和方法；
+2、如果子类与父类在同一包内，还能访问默认（无修饰符）的成员变量与方法。
+3、不能访问标为private的成员
+
+ * C++中公有继承、保护继承、私有继承的区别
+公有继承时基类中各成员属性保持不变，基类中private成员被隐藏。派生类的成员只能访问基类中的public/protected成员，而不能访问private成员；派生类的对象只能访问基类中的public成员。
+
+私有继承时基类中各成员属性均变为private，并且基类中private成员被隐藏。派生类的成员也只能访问基类中的public/protected成员，而不能访问private成员；派生类的对象不能访问基类中的任何的成员。 
+
+保护继承时基类中各成员属性均变为protected，并且基类中private成员被隐藏。派生类的成员只能访问基类中的public/protected成员，而不能访问private成员；派生类的对象不能访问基类中的任何的成员。
+
+//公有继承                      对象访问    成员访问
+public    -->  public              Y         Y
+protected -->  protected           N         Y
+private   -->  private             N         N
+
+//保护继承                      对象访问    成员访问
+public    -->  protected           N         Y
+protected -->  protected           N         Y
+private   -->  protected           N         N
+
+//私有继承                      对象访问    成员访问
+public    -->  private             N         Y
+protected -->  private             N         Y
+private   -->  private             N         N
+
+ * /
