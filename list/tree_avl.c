@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define max(x, y) (x)>(y)?(x):(y)
+#define MAX(x, y) (x)>(y)?(x):(y)
 
 typedef struct node {
     int data;
@@ -20,7 +20,7 @@ Tree *destory(Tree *tree)
     return NULL;
 }
 
-int height(Node *node)
+int height(Tree *node)
 {
     if (NULL == node)
         return -1;
@@ -31,16 +31,16 @@ int height(Node *node)
  * 关联左儿子
  * 子右变父左
  * 父变子右
- * 父高度 = max(左树，右树)   + 1
- * 子高度 = max(左树，新右树) + 1
+ * 父高度 = MAX(左树，右树)   + 1
+ * 子高度 = MAX(左树，新右树) + 1
  */
-Node *singel_rotate_with_left(Node *root)
+Tree *single_rotate_with_left(Tree *root)
 {
     Node *lchild = root->left;
     root->left = lchild->right;
     lchild->right = root;
-    root->height = max(height(root->left), height(root->right)) + 1;
-    lchild->heitht = max(height(lchild->left), root->height) + 1;
+    root->height = MAX(height(root->left), height(root->right)) + 1;
+    lchild->height = MAX(height(lchild->left), root->height) + 1;
     return lchild;
 }
 
@@ -48,23 +48,23 @@ Node *singel_rotate_with_left(Node *root)
  * 关联右儿子
  * 子左变父右
  * 父变子左
- * 父高度 = max(左树，右树)   + 1
- * 子高度 = max(新左树，右树) + 1
+ * 父高度 = MAX(左树，右树)   + 1
+ * 子高度 = MAX(新左树，右树) + 1
  */
-Node *single_rotate_with_right(Node *root)
+Tree *single_rotate_with_right(Tree *root)
 {
     Node *rchild = root->right;
     root->right = rchild->left;
     rchild->left = root;
-    root->height = max(height(root->left), height(root->right)) + 1;
-    rchild->height = max(height(root->height, rchild->right)) + 1;
+    root->height = MAX(height(root->left), height(root->right)) + 1;
+    rchild->height = MAX(root->height, height(rchild->right)) + 1;
     return rchild;
 }
 /* LR
  * 以左子为根进行RR
  * 以root为根进行LL
  */
-Node *double_rotate_with_left(Node *root)
+Tree *double_rotate_with_left(Tree *root)
 {
     root->left = single_rotate_with_right(root->left);
     return single_rotate_with_left(root);
@@ -74,7 +74,7 @@ Node *double_rotate_with_left(Node *root)
  * 以右子为根进行LL
  * 以root为根进行RR
  */
-Node *double_rotate_with_right(Node *root)
+Tree *double_rotate_with_right(Tree *root)
 {
     root->right = single_rotate_with_left(root->right);
     return single_rotate_with_right(root);
@@ -105,7 +105,7 @@ Tree *insert(Tree *tree, int data)
                 tree = double_rotate_with_right(tree);
     }
 
-    tree->height = max(height(tree->left), height(tree->right)) + 1;
+    tree->height = MAX(height(tree->left), height(tree->right)) + 1;
     return tree;
 }
 
@@ -147,4 +147,19 @@ Tree *find_min(Tree *tree)
     return tree;
 }
 
+int main(int argc, char *argv[])
+{
+    int i, j=0;
+    Tree *tree = NULL;
+    Node *node = NULL;
+    for (i=0; i<50; i++, j=(j+7)%50)
+        tree = insert(tree, j);
 
+    node = find_min(tree);
+    if (NULL != node)
+        printf("min=%d\n", node->data);
+    node = find_min_r(tree);
+    if (NULL != node)
+        printf("min=%d\n", node->data);
+
+}
