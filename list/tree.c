@@ -362,13 +362,13 @@ int is_avl(Tree *tree, int *height)
 Tree *mirror(Tree *tree)
 {
     if (NULL == tree)
-        return;
+        return NULL;
 
     Tree *left = mirror(tree->left);
     Tree *right = mirror(tree->right);
 
-    tree->left = left;
-    tree->right = right;
+    tree->left = right;
+    tree->right = left;
     return tree;
 }
 
@@ -395,6 +395,7 @@ int find_node(Tree *tree, Tree *node)
 
 Tree *get_last_common_parent(Tree *tree, Tree *node1, Tree *node2)
 {
+    //if NULL == tree怎么办？？
     if (find_node(tree->left, node1)) {
         if (find_node(tree->right, node2))
             return tree;
