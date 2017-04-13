@@ -103,7 +103,7 @@ void heap_sort(int a[], int n)
         heap_adjust(a, 0, i);
     }
 }
-
+#if 0
 void merge(int a[], int b[], int lpos, int rpos, int rightend)
 {
     int i, leftend, num, tmppos;
@@ -125,14 +125,39 @@ void merge(int a[], int b[], int lpos, int rpos, int rightend)
     for (i=0; i<num; i++, rightend--)
         a[rightend] = b[rightend];
 }
-void m_sort(int a[], int b[], int left, int right)
+#endif
+
+void merge(int a[], int b[], int low, int mid, int high)
 {
-    int center;
-    if (left < right) {
-        center = (left+right) / 2;
-        m_sort(a, b, left, center);
-        m_sort(a, b, center+1, right);
-        merge(a, b, left, center+1, right);
+    int i = low, j = mid + 1;
+    int m = mid, n = high;
+    int k = 0;
+
+    while (i <= m && j <= n) {
+        if (a[i] <= a[j])
+            b[k++] = a[i++];
+        else
+            b[k++] = a[j++];
+    }
+
+    while (i <= m)
+        b[k++] = a[i++];
+
+    while (j <= n)
+        b[k++] = a[j++];
+
+    for (i=0; i<k;i++)
+        a[low+i] = b[i];
+}
+
+void m_sort(int a[], int b[], int low, int high)
+{
+    int mid;
+    if (low < high) {
+        mid = (low+high) / 2;
+        m_sort(a, b, low, mid);
+        m_sort(a, b, mid+1, high);
+        merge(a, b, low, mid, high);
     }
 }
 void merge_sort(int a[], int n)
@@ -169,8 +194,6 @@ int b_search(int arr[], int low, int high, int key)
     return -1;
 }
 
-
-
 int main(int argc, char *argv[])
 {
 	int bubble_arr[9] = {5,2,1,7,6,9,8,3,4};
@@ -188,7 +211,6 @@ int main(int argc, char *argv[])
 	shell_sort(shell_arr, 9);
 	heap_sort(heap_arr, 9);
 
-	
 	for (i=0; i<9; i++)
 		printf("%d ", bubble_arr[i]);
 	printf("\n");
@@ -216,6 +238,7 @@ int main(int argc, char *argv[])
 	for (i=0; i<9; i++)
 		printf("%d ", heap_arr[i]);
 	printf("\n");
+
 
 	return 0;
 }
