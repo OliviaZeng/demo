@@ -57,30 +57,49 @@ void shell_sort(int a[], int n)
         }
 }
 
+//从最后一个非叶子结点开始，每次都是从父结点、左孩子、右孩子中进行比较交换，交换可能会引起孩子结点不满足堆的性质，所以每次交换之后需要重新对被交换的孩子结点进行调整
 void heap_adjust(int a[], int i, int n)
 {
     int child;
-    int tmp;
-    for (tmp=a[i]; 2*i+1<n; i=child) {
+    int parent;
+    for (parent=a[i]; 2*i+1<n; i=child) {
+        //子结点的位置=2*（父结点位置）+1
         child = 2*i+1;
-        if (child != n-1 && a[child+1]>a[child])
+        if (child != n-1 && a[child+1]>a[child])   //调整为大根堆
+        //if (child != n-1 && a[child+1]<a[child]) //调整为小根堆
             child++;
-        if (tmp < a[child])
+        //如果较大的子结点大于父结点那么把较大的子结点往上移动，替换它的父结点
+        if (parent < a[child])   //调整为大根堆
+        //if (parent > a[child]) //调整为小根堆
             a[i] = a[child];
         else
             break;
     }
-    a[i] = tmp;
+    a[i] = parent;
 }
+
+/* 递增数组
+ * 1.将原始数组调整为大根堆
+ * 2.将最大值与数组最后项交换
+ * 3.新数组调整为大根堆
+ */
 void heap_sort(int a[], int n)
 {
     int i;
+    //调整序列的前半部分元素，调整完之后第一个元素是序列的最大的元素
     for (i=n/2; i>=0; i--)
         heap_adjust(a, i, n);
+
+    for (i=0; i<n; i++)
+        printf("a[%d]=%d\n", i, a[i]);
+
     for (i=n-1; i>0; i--) {
+        //把第一个元素和当前的最后一个元素交换，
+        //保证当前的最后一个位置的元素都是在现在的这个序列之中最大的
         a[i] = a[0]^a[i];
         a[0] = a[0]^a[i];
         a[i] = a[0]^a[i];
+        //不断缩小调整heap的范围，每一次调整完毕保证第一个元素是当前序列的最大值
         heap_adjust(a, 0, i);
     }
 }
