@@ -146,7 +146,7 @@ void merge_sort(int a[], int n)
  * 基本快速排序
  * 固定基元
  */
-void quick_sort1(int a[], int left, int right)
+void quick_sort_base(int a[], int left, int right)
 {
     if (left >= right)
         return;
@@ -165,11 +165,9 @@ void quick_sort1(int a[], int left, int right)
         a[j] = a[i];
     }
     a[i] = key;
-    quick_sort1(a, left, i-1);
-    quick_sort1(a, i+1, right);
+    quick_sort_base(a, left, i-1);
+    quick_sort_base(a, i+1, right);
 }
-
-
 
 void swap(int *l, int *r)
 {
@@ -199,7 +197,7 @@ void q_sort(int a[], int left, int right)
         j = right - 1;
         while (1) {
             while (a[++i] < pivot) {}
-            while (a[--j] < pivot) {}
+            while (a[--j] > pivot) {}
             if (i < j)
                 swap(&a[i], &a[j]);
             else
@@ -212,11 +210,68 @@ void q_sort(int a[], int left, int right)
     } else {
         insert_sort(a+left, right-left+1);
     }
-    
 }
-void quick_sort2(int arr[], int n)
+/*
+ * 教科书中快速排序
+ * 三数取中+插排
+ */
+void quick_sort_example(int arr[], int n)
 {
     q_sort(arr, 0, n-1);
+}
+
+
+int partition(int arr[], int low, int high)
+{
+    int first = low;
+    int last = high;
+    int key = arr[low];                             //取第一个元素作为基准元
+    while (first < last)
+    {
+        while (first < last && arr[last] >= key)
+            last--;
+        arr[first] = arr[last];
+        while (first < last && arr[first] <= key)
+            first++;
+        arr[last] = arr[first];
+    }
+    arr[first] = key;                               //基准元居中
+    return first;
+}
+void median(int a[], int low, int high)
+{
+    int mid = low + ((high - low) >> 1);
+    if (a[mid] > a[high])
+        swap(&a[mid], &a[high]);
+    if (a[low] > a[high])
+        swap(&a[low], &a[high]);
+    if (a[mid] > a[low])
+        swap(&a[mid], &a[low]);
+}
+void QsortMedianOfThree(int arr[], int low, int high)
+{
+    if (low >= high) return;                        //递归出口
+    median(arr, low, high);         //三数取中
+    int p = partition(arr, low, high);      //将 >= x 的元素交换到右边区域，将 <= x 的元素交换到左边区域
+    QsortMedianOfThree(arr, low, p - 1);
+    QsortMedianOfThree(arr, p + 1, high);
+}
+
+
+void q_sort_self(int a[], int low, int high)
+{
+    if (high-low + 1 < 10) {
+        insert_sort(a, high-low+1);
+        return;
+    }
+    median(a, low, high);
+    int p = partition(a, low, high);
+    QsortMedianOfThree(a, low, p - 1);
+    QsortMedianOfThree(a, p + 1, high);
+}
+void quick_sort_self(int arr[], int n)
+{
+    q_sort_self(arr, 0, n-1);
 }
 
 
@@ -256,7 +311,8 @@ int main(int argc, char *argv[])
 	int shell_arr[9] = {5,2,1,7,6,9,8,3,4};
 	int heap_arr[9] = {5,2,1,7,6,9,8,3,4};
 	int quick_arr1[9] = {5,2,1,7,6,9,8,3,4};
-	int quick_arr2[9] = {5,2,1,7,6,9,8,3,4};
+	int quick_arr2[12] = {11,5,2,1,12,7,6,9,8,3,4,10};
+	int quick_arr3[12] = {11,5,2,1,12,7,6,9,8,3,4,10};
 	int i;
 
 	bubble_sort(bubble_arr, 9);
@@ -265,8 +321,9 @@ int main(int argc, char *argv[])
 	merge_sort(merge_arr, 9);
 	shell_sort(shell_arr, 9);
 	heap_sort(heap_arr, 9);
-	quick_sort1(quick_arr1, 0, 9-1);
-	quick_sort2(quick_arr2, 9);
+	quick_sort_base(quick_arr1, 0, 9-1);
+	quick_sort_example(quick_arr2, 12);
+    quick_sort_self(quick_arr3, 12);
 
 	for (i=0; i<9; i++)
 		printf("%d ", bubble_arr[i]);
@@ -296,8 +353,12 @@ int main(int argc, char *argv[])
 		printf("%d ", quick_arr1[i]);
 	printf("\n");
 
-	for (i=0; i<9; i++)
+	for (i=0; i<12; i++)
 		printf("%d ", quick_arr2[i]);
+	printf("\n");
+
+	for (i=0; i<12; i++)
+		printf("%d ", quick_arr3[i]);
 	printf("\n");
 
 	return 0;
