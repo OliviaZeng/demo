@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 
-void bubble(int a[], int n)
+void bubble_sort(int a[], int n)
 {
 	int i, j, tmp;
 	for (i=0; i<n-1; i++)
@@ -15,7 +15,7 @@ void bubble(int a[], int n)
 		}
 }
 
-void insert(int a[], int n)
+void insert_sort(int a[], int n)
 {
     int i, j, tmp;
     for (i=1; i<n; i++) {
@@ -90,9 +90,6 @@ void heap_sort(int a[], int n)
     for (i=n/2; i>=0; i--)
         heap_adjust(a, i, n);
 
-    for (i=0; i<n; i++)
-        printf("a[%d]=%d\n", i, a[i]);
-
     for (i=n-1; i>0; i--) {
         //把第一个元素和当前的最后一个元素交换，
         //保证当前的最后一个位置的元素都是在现在的这个序列之中最大的
@@ -103,29 +100,6 @@ void heap_sort(int a[], int n)
         heap_adjust(a, 0, i);
     }
 }
-#if 0
-void merge(int a[], int b[], int lpos, int rpos, int rightend)
-{
-    int i, leftend, num, tmppos;
-    leftend =  rpos-1;
-    tmppos = lpos;
-    num = rightend-lpos+1;
-    while (lpos <= leftend && rpos <= rightend)
-        if (a[lpos] <= a[rpos])
-            b[tmppos++] = a[lpos++];
-        else
-            b[tmppos++] = a[rpos++];
-
-    while (lpos <= leftend)
-        b[tmppos++] = a[lpos++];
-
-    while (rpos <= rightend)
-        b[tmppos++] = a[rpos++];
-
-    for (i=0; i<num; i++, rightend--)
-        a[rightend] = b[rightend];
-}
-#endif
 
 void merge(int a[], int b[], int low, int mid, int high)
 {
@@ -146,10 +120,9 @@ void merge(int a[], int b[], int low, int mid, int high)
     while (j <= n)
         b[k++] = a[j++];
 
-    for (i=0; i<k;i++)
+    for (i=0; i<k; i++)
         a[low+i] = b[i];
 }
-
 void m_sort(int a[], int b[], int low, int high)
 {
     int mid;
@@ -167,6 +140,86 @@ void merge_sort(int a[], int n)
         return;
     m_sort(a, b, 0, n-1);
 }
+
+
+/*
+ * 基本快速排序
+ * 固定基元
+ */
+void quick_sort1(int a[], int left, int right)
+{
+    if (left >= right)
+        return;
+
+    int i = left;
+    int j = right;
+    int key = a[left];
+
+    while (i < j) {
+        while (i < j && key <= a[j])
+            j--;
+        a[i] = a[j];
+
+        while (i < j && key >= a[i])
+            i++;
+        a[j] = a[i];
+    }
+    a[i] = key;
+    quick_sort1(a, left, i-1);
+    quick_sort1(a, i+1, right);
+}
+
+
+
+void swap(int *l, int *r)
+{
+    int tmp = *l;
+    *l = *r;
+    *r = tmp;
+}
+int median3(int a[], int left, int right)
+{
+    int mid = left + ((right-left) >> 1);
+    if (a[left] > a[mid])
+        swap(&a[left], &a[mid]);
+    if (a[left] > a[right])
+        swap(&a[left], &a[right]);
+    if (a[mid] > a[right])
+        swap(&a[mid], &a[right]);
+
+    swap(&a[mid], &a[right-1]);
+    return a[right-1];
+}
+void q_sort(int a[], int left, int right)
+{
+    int i, j, pivot;
+    if (left + 3 <= right) {
+        pivot = median3(a, left, right);
+        i = left;
+        j = right - 1;
+        while (1) {
+            while (a[++i] < pivot) {}
+            while (a[--j] < pivot) {}
+            if (i < j)
+                swap(&a[i], &a[j]);
+            else
+                break;
+        }
+        swap(&a[i], &a[right-1]);
+
+        q_sort(a, left, i-1);
+        q_sort(a, i+1, right);
+    } else {
+        insert_sort(a+left, right-left+1);
+    }
+    
+}
+void quick_sort2(int arr[], int n)
+{
+    q_sort(arr, 0, n-1);
+}
+
+
 
 int b_search_recursion(int arr[], int low, int high, int key)
 {
@@ -202,14 +255,18 @@ int main(int argc, char *argv[])
 	int merge_arr[9] = {5,2,1,7,6,9,8,3,4};
 	int shell_arr[9] = {5,2,1,7,6,9,8,3,4};
 	int heap_arr[9] = {5,2,1,7,6,9,8,3,4};
+	int quick_arr1[9] = {5,2,1,7,6,9,8,3,4};
+	int quick_arr2[9] = {5,2,1,7,6,9,8,3,4};
 	int i;
 
-	bubble(bubble_arr, 9);
-	insert(insert_arr, 9);
+	bubble_sort(bubble_arr, 9);
+	insert_sort(insert_arr, 9);
 	select_sort(select_arr, 9);
 	merge_sort(merge_arr, 9);
 	shell_sort(shell_arr, 9);
 	heap_sort(heap_arr, 9);
+	quick_sort1(quick_arr1, 0, 9-1);
+	quick_sort2(quick_arr2, 9);
 
 	for (i=0; i<9; i++)
 		printf("%d ", bubble_arr[i]);
@@ -223,22 +280,25 @@ int main(int argc, char *argv[])
 		printf("%d ", select_arr[i]);
 	printf("\n");
 
-
 	for (i=0; i<9; i++)
 		printf("%d ", merge_arr[i]);
 	printf("\n");
-
-
 
 	for (i=0; i<9; i++)
 		printf("%d ", shell_arr[i]);
 	printf("\n");
 
-
 	for (i=0; i<9; i++)
 		printf("%d ", heap_arr[i]);
 	printf("\n");
 
+	for (i=0; i<9; i++)
+		printf("%d ", quick_arr1[i]);
+	printf("\n");
+
+	for (i=0; i<9; i++)
+		printf("%d ", quick_arr2[i]);
+	printf("\n");
 
 	return 0;
 }
