@@ -2,11 +2,36 @@
 #include <stdlib.h>
 
 /*
+简单排序中直接插入最好，快速排序最快，当文件为正序时，直接插入和冒泡均最佳。
+
+因为不同的排序方法适应不同的应用环境和要求，所以选择合适的排序方法应综合考虑下列因素：
+待排序的记录数目n；
+记录的大小(规模)；
+关键字的结构及其初始状态；
+对稳定性的要求；
+语言工具的条件；
+存储结构；
+时间和辅助空间复杂度等。
+
+不同条件下，排序方法的选择
+
+(1)若n较小(如n≤50)，可采用直接插入或直接选择排序。当记录规模较小时，直接插入排序较好；否则因为直接选择移动的记录数少于直接插人，应选直接选择排序为宜。
+(2)若文件初始状态基本有序(指正序)，则应选用直接插人、冒泡或随机的快速排序为宜；
+(3)若n较大，则应采用时间复杂度为O(nlgn)的排序方法：快速排序、堆排序或归并排序。
+快速排序是目前基于比较的内部排序中被认为是最好的方法，当待排序的关键字是随机分布时，快速排序的平均时间最短；
+堆排序所需的辅助空间少于快速排序，并且不会出现快速排序可能出现的最坏情况。这两种排序都是不稳定的。
+
+若要求排序稳定，则可选用归并排序。但从单个记录起进行两两归并的 排序算法并不值得提倡，通常可以将它和直接插入排序结合在一起使用。先利用直接插入排序求得较长的有序子文件，然后再两两归并之。因为直接插入排序是稳定的，所以改进后的归并排序仍是稳定的。
+*/
+
+
+/*
  * arv  n*n
  * good n
  * bad  n*n
  * 辅助 1
  * 稳定
+ * n小
  */
 void bubble_sort(int a[], int n)
 {
@@ -23,28 +48,11 @@ void bubble_sort(int a[], int n)
 
 /*
  * arv  n*n
- * good n
- * bad  n*n
- * 辅助 1
- * 稳定
- */
-void insert_sort(int a[], int n)
-{
-    int i, j, tmp;
-    for (i=1; i<n; i++) {
-        tmp = a[i];
-        for (j=i; j>0&&a[j-1]>tmp; j--)
-            a[j] = a[j-1];
-        a[j] = tmp;
-    }
-}
-
-/*
- * arv  n*n
  * good n*n
  * bad  n*n
  * 辅助 1
  * 稳定
+ * n小
  */
 void select_sort(int a[], int n)
 {
@@ -60,6 +68,25 @@ void select_sort(int a[], int n)
 			a[i] = tmp;
 		}
 	}
+}
+
+/*
+ * arv  n*n
+ * good n
+ * bad  n*n
+ * 辅助 1
+ * 稳定
+ * 大部分已排序
+ */
+void insert_sort(int a[], int n)
+{
+    int i, j, tmp;
+    for (i=1; i<n; i++) {
+        tmp = a[i];
+        for (j=i; j>0&&a[j-1]>tmp; j--)
+            a[j] = a[j-1];
+        a[j] = tmp;
+    }
 }
 
 /*
@@ -114,6 +141,7 @@ void heap_adjust(int a[], int i, int n)
  * bad  nlogn
  * 辅助 1
  * 不稳定
+ * n大
  */
 void heap_sort(int a[], int n)
 
@@ -172,6 +200,7 @@ void m_sort(int a[], int b[], int low, int high)
  * bad  nlogn
  * 辅助 n
  * 稳定
+ * n大
  */
 void merge_sort(int a[], int n)
 {
@@ -193,6 +222,7 @@ void merge_sort(int a[], int n)
  * bad  n*n
  * 辅助 logn~n
  * 不稳定
+ * n大
  */
 void quick_sort_base(int a[], int left, int right)
 {
