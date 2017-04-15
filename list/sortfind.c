@@ -1,7 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
+/*
+ * arv  n*n
+ * good n
+ * bad  n*n
+ * 辅助 1
+ * 稳定
+ */
 void bubble_sort(int a[], int n)
 {
 	int i, j, tmp;
@@ -15,6 +21,13 @@ void bubble_sort(int a[], int n)
 		}
 }
 
+/*
+ * arv  n*n
+ * good n
+ * bad  n*n
+ * 辅助 1
+ * 稳定
+ */
 void insert_sort(int a[], int n)
 {
     int i, j, tmp;
@@ -26,6 +39,13 @@ void insert_sort(int a[], int n)
     }
 }
 
+/*
+ * arv  n*n
+ * good n*n
+ * bad  n*n
+ * 辅助 1
+ * 稳定
+ */
 void select_sort(int a[], int n)
 {
 	int i, j, min, tmp;
@@ -42,6 +62,13 @@ void select_sort(int a[], int n)
 	}
 }
 
+/*
+ * arv  nlogn~n*n
+ * good n*n
+ * bad  n*n
+ * 辅助 1
+ * 不稳定
+ */
 void shell_sort(int a[], int n)
 {
     int i, j, gap, tmp;
@@ -82,8 +109,14 @@ void heap_adjust(int a[], int i, int n)
  * 1.将原始数组调整为大根堆
  * 2.将最大值与数组最后项交换
  * 3.新数组调整为大根堆
+ * arv  nlogn
+ * good nlogn
+ * bad  nlogn
+ * 辅助 1
+ * 不稳定
  */
 void heap_sort(int a[], int n)
+
 {
     int i;
     //调整序列的前半部分元素，调整完之后第一个元素是序列的最大的元素
@@ -133,6 +166,13 @@ void m_sort(int a[], int b[], int low, int high)
         merge(a, b, low, mid, high);
     }
 }
+/*
+ * arv  nlogn
+ * good nlogn
+ * bad  nlogn
+ * 辅助 n
+ * 稳定
+ */
 void merge_sort(int a[], int n)
 {
     int *b = malloc(n*sizeof(int));
@@ -145,6 +185,14 @@ void merge_sort(int a[], int n)
 /*
  * 基本快速排序
  * 固定基元
+ */
+
+/*
+ * arv  nlogn
+ * good nlogn
+ * bad  n*n
+ * 辅助 logn~n
+ * 不稳定
  */
 void quick_sort_base(int a[], int left, int right)
 {
