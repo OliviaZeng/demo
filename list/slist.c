@@ -95,6 +95,20 @@ Node *reverse(void)
     return new;
 }
 
+Node *reverse1(Node *head)
+{
+    Node *new = NULL;
+    Node *tmp =  NULL;
+    Node *p = head;
+    while (NULL != p) {
+        tmp = p->next;
+        p->next = new;
+        new = p;
+        p = tmp;
+    }
+    return new;
+}
+
 int is_exits_loop(void)
 {
     Node *fast = head;
@@ -171,7 +185,7 @@ void delete_by_num(int num)
 		cur = cur->next;
 	}
 
-	if (NULL = cur)
+	if (NULL == cur)
 		return;
 
 	if (head == cur) {
@@ -200,7 +214,7 @@ void add_by_num(int num)
 		cur = cur->next;
 	}
 
-	if (NULL = cur) {
+	if (NULL == cur) {
 		add_from_tail(num);
 		return;
 	}
@@ -209,24 +223,85 @@ void add_by_num(int num)
 		add_from_tail(num);
 	} else {
 		Node *node = create(num);
-		if (NULL = node)
+		if (NULL == node)
 			return;
 		node->next = cur;
 		pre->next = node;
 	}
 }
 
+int isPalindrome(Node* h) {
+
+    if (NULL == h)
+        return 1;
+    Node *new = reverse1(h);
+
+    while (h && new) {
+        printf("%d-%d\n", h->data, new->data);
+        if (h->data != new->data)
+            return 0;
+
+        new  = new->next;
+        h = h->next;
+    }
+
+    return (NULL == h && NULL == new);
+}
+
+struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *headB) {
+    if (NULL == headA || NULL == headB)
+        return NULL;
+    struct ListNode *a = headA;
+    struct ListNode *b = headB;
+    int lena=0, lenb=0;
+
+    while (a || b) {
+        if (a) {
+            a = a->next;
+            lena++;
+        }
+        if (b) {
+            b = b->next;
+            lenb++;
+        }
+    }
+    a = headA;
+    b = headB;
+    while (a && b) {
+        if (lena > lenb) {
+            a = a->next;
+            lena--;
+        } else if (lena < lenb) {
+            b = b->next;
+            lenb--;
+        } else {
+            a = a->next;
+            b = b->next;
+        }
+
+        if (NULL!=a && NULL!=b && a == b)
+            break;
+    }
+    if (a && b)
+        return a;
+    else
+        return NULL;
+}
 
 int main(int argc ,char *argv[])
 {
     add_from_tail(1);
     add_from_tail(2);
     add_from_tail(3);
-    add_from_tail(4);
-    add_from_tail(5);
-    add_from_tail(6);
+    add_from_tail(2);
+    add_from_tail(1);
     print();
+    Node *tmp = head;
 
+    int flag = isPalindrome(tmp);
+
+
+#if 0
     delete_from_head();
     delete_from_head();
     delete_from_head();
@@ -234,6 +309,7 @@ int main(int argc ,char *argv[])
 
     reverse();
     print();
+#endif
 
     return 0;
 }

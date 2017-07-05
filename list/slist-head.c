@@ -108,7 +108,7 @@ Node *reverse(List *list)
         tmp = p->next;
         p->next = new;
         new = p;
-        p = tmp
+        p = tmp;
     }
     //list = new;
     return new;
@@ -152,8 +152,63 @@ Node *find_loop_port(List *list)
     return slow;
 }
 
+Node *getIntersectionNode(Node *headA, Node *headB) {
+    if (NULL == headA->next || NULL == headB->next)
+        return NULL;
+    Node *a = headA->next;
+    Node *b = headB->next;
+    int lena=0, lenb=0;
+
+    while (a || b) {
+        if (a) {
+            a = a->next;
+            lena++;
+        }
+        if (b) {
+            b = b->next;
+            lenb++;
+        }
+    }
+    a = headA->next;
+    b = headB->next;
+    while (a && b) {
+        printf("a=%d b=%d, lena=%d, lenb=%d\n", a->data, b->data, lena, lenb);
+        if (lena > lenb) {
+            a = a->next;
+            lena--;
+        } else if (lena < lenb) {
+            b = b->next;
+            lenb--;
+        } else {
+            a = a->next;
+            b = b->next;
+        }
+
+        if (NULL!=a && NULL!=b && a->data == b->data)
+            break;
+    }
+    if (a && b)
+        return a;
+    else
+        return NULL;
+}
+
 int main(int argc, char *argv[])
 {
+
+    List *l1 = init(); 
+    List *l2 = init(); 
+    insert(l1, 9);
+    insert(l1, 8);
+    insert(l1, 3);
+    insert(l1, 2);
+    insert(l1, 1);
+
+    insert(l2, 9);
+    insert(l2, 8);
+    insert(l2, 4);
+
+    getIntersectionNode(l1, l2);
 
     return 0;
 }
