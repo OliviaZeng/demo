@@ -6,12 +6,9 @@
 
 
 static CryptoInfo *pCrytoInfo = NULL; 
-//static CRYPTO_MODE mode = TRIPLE_CBC;
 CRYPTO_MODE mode = TRIPLE_CBC;
-//string key = "&EIC>Z?ef:d2$_()SoF(H!ox3y2D&N7Cd";
-static char key[]  =  "&EIC>Z?ef:d2$_()SoF(H!ox3y2D&N7C";
-//static unsigned char cbc_iv[8] = {'^', 'K', '8', '(', 'e', '2', '$', 'N'};
-static unsigned char cbc_iv[8] = {'^', 'K', '8', '(', 'e', '2', '$', 'N'};
+static char key[]  =  "12345678123456781234567812345678";
+static unsigned char cbc_iv[8] = {'1', '2', '3', '4', '5', '6', '7', '8'};
 static int key_len = 32;
 
 int DES_Init(void)
