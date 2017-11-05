@@ -1,0 +1,17 @@
+struct GencodeA {
+    Name     string
+    BirthDay time
+    Phone    string
+    Siblings vint64
+    Spouse   bool
+    Money    float64
+    Vars     GencodeB
+}
+
+struct GencodeB {
+    v1 string
+    v2 string
+    v3 string
+    v4 string
+    v5 string
+}
