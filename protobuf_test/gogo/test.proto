@@ -1,0 +1,43 @@
+package examplegogo;
+
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+enum FooType {
+	X = 2;
+	Y = 3;
+	Z = 4;
+}
+message OptionalTest {
+    optional double   k1  = 1;
+    optional float    k2  = 2;
+    optional int32    k3  = 3;
+    optional int64    k4  = 4;
+    optional uint32   k5  = 5;
+    optional uint64   k6  = 6;
+    optional sint32   k7  = 7;
+    optional sint64   k8  = 8;
+    optional fixed32  k9  = 9;
+    optional fixed64  k10 = 10;
+    optional sfixed32 k11 = 11;
+    optional sfixed64 k12 = 12;
+    optional bool     k13 = 13;
+    optional string   k14 = 14;
+    optional bytes    k15 = 15 [(gogoproto.nullable) = true];
+    optional FooType  k16 = 16 [(gogoproto.nullable) = true];
+
+    optional double   k17  = 17 [default = 11111.1111];
+    optional float    k18  = 18 [default = 22.22];
+    optional int32    k19  = 19 [default = 3333];
+    optional int64    k20  = 20 [default = 444444];
+    optional uint32   k21  = 21 [default = 5555];
+    optional uint64   k22  = 22 [default = 666666];
+    optional sint32   k23  = 23 [default = -7777];
+    optional sint64   k24  = 24 [default = -88888];
+    optional fixed32  k25  = 25 [default = 9999];
+    optional fixed64  k26  = 26 [default = 101010];
+    optional sfixed32 k27  = 27 [default = 1111];
+    optional sfixed64 k28  = 28 [default = 1212];
+    optional bool     k29  = 29 [default = false];
+    optional string   k30  = 30 [default = "abcdefghijklmn"];
+    optional bytes    k31  = 31 [default = "12345678901234567890"];
+	optional FooType  k32  = 32 [default = Z];
+}
