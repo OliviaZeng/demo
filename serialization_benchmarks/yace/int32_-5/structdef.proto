@@ -1,0 +1,10 @@
+package goserbench;
+
+message ProtoBufA {
+  required int32 name = 1;
+  required int32 birthDay = 2;
+  required int32 phone = 3;
+  required int32 siblings = 4;
+  required int32 spouse = 5;
+  required int32 money = 6;
+}

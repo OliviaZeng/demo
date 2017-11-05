@@ -1,0 +1,10 @@
+package goserbench;
+
+message ProtoBufA {
+  required double name = 1;
+  required double birthDay = 2;
+  required double phone = 3;
+  required double siblings = 4;
+  required double spouse = 5;
+  required double money = 6;
+}

@@ -1,0 +1,16 @@
+package goserbench;
+
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+
+option (gogoproto.unmarshaler_all) = true;
+option (gogoproto.sizer_all) = true;
+option (gogoproto.marshaler_all) = true;
+
+message GogoProtoBufA {
+  required bool name = 1 [(gogoproto.nullable) = false];
+  required bool birthDay = 2 [(gogoproto.nullable) = false];
+  required bool phone = 3 [(gogoproto.nullable) = false];
+  required bool siblings = 4 [(gogoproto.nullable) = false];
+  required bool spouse = 5 [(gogoproto.nullable) = false];
+  required bool money = 6 [(gogoproto.nullable) = false];
+}

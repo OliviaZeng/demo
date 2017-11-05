@@ -1,4 +1,3 @@
-# Those benchmarks Forked from alecthomas/go_serialization_benchmarks
 # Benchmarks of Go serialization methods
 
 [![Gitter chat](https://badges.gitter.im/alecthomas.png)](https://gitter.im/alecthomas/Lobby)

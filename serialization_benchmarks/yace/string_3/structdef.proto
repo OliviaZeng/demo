@@ -1,0 +1,10 @@
+package goserbench;
+
+message ProtoBufA {
+  required string name = 1;
+  required string birthDay = 2;
+  required string phone = 3;
+  required string siblings = 4;
+  required string spouse = 5;
+  required string money = 6;
+}

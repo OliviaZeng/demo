@@ -1,0 +1,10 @@
+namespace flatbuffersmodels;
+
+table FlatBufferA {
+	name:     bool;
+	birthDay: bool;
+	phone:    bool;
+	siblings: bool;
+	spouse:   bool;
+	money:    bool;
+}

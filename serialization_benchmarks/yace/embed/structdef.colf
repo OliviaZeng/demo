@@ -1,0 +1,19 @@
+package goserbench
+
+type ColferA struct {
+	Name     text
+	BirthDay timestamp
+	Phone    text
+	Siblings int32
+	Spouse   bool
+	Money    float64
+    Vars     ColferB
+}
+
+type ColferB struct {
+    Value1 int32
+    Value2 int32
+    Value3 int32
+    Value4 int32
+    Value5 int32
+}

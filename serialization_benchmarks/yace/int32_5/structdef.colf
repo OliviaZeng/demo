@@ -1,0 +1,10 @@
+package goserbench
+
+type ColferA struct {
+	Name     int32
+	BirthDay int32
+	Phone    int32
+	Siblings int32
+	Spouse   int32
+	Money    int32
+}

@@ -1,0 +1,8 @@
+struct GencodeUnsafeA {
+    Name     string
+    BirthDay string
+    Phone    string
+    Siblings string
+    Spouse   string
+    Money    string
+}

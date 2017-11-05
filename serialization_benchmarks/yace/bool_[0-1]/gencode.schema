@@ -1,0 +1,8 @@
+struct GencodeA {
+    Name     bool
+    BirthDay bool
+    Phone    bool
+    Siblings bool
+    Spouse   bool
+    Money    bool
+}
